@@ -68,23 +68,26 @@ async def start(event):
 
                         tp,sl,order = CREATE_ORDER(client,symbol, side, 50, usdt,poside)
                         x=f'''OLD CANDLE OPENING : {data[0][1]}
-    NEW CANDLE CLOSING : {data[1][4]}
-    RESULT : LONG
-    TAKE PROFIT : {tp}
-    STOP LOSS : {sl}'''
-                        await event.reply(str(x))
-                        await event.reply(str(order))
-                        Result,tpslid,TRADEstatus = LONG_TPSL(client,tp,sl)
-                        await event.reply(str(Result))
+NEW CANDLE CLOSING : {data[1][4]}
+RESULT : LONG
+TAKE PROFIT : {tp}
+STOP LOSS : {sl}'''
+                        await bot.send_message(LOG_GROUP,x)
+                        await bot.send_message(LOG_GROUP,str(order))
+                        if tradeS_value == "n":
+                            Result,tpslid,TRADEstatus = LONG_TPSL(client,tp,sl)
+                        else:
+                            Result,tpslid,TRADEstatus = SHORT_TPSL(client,tp,sl)
+                        await bot.send_message(LOG_GROUP,str(Result))
                         final = CLEAR_TRADES(client,tpslid)
-                        await event.reply(str(final))
+                        await bot.send_message(LOG_GROUP,str(final))
                         game = NumberGame()
                         usdt = game.process_input(TRADEstatus)["original_list_value"]
                         tradeS_value = game.process_input(TRADEstatus)["tradeS_value"]
                         response = requests.get(base_url + endpoint, params=params)
 
                     except Exception as e:
-                        await event.reply(str(e))
+                        await bot.send_message(LOG_GROUP,str(e))
                         response = requests.get(base_url + endpoint, params=params)
 
                 else:
@@ -99,23 +102,26 @@ async def start(event):
                         tp,sl,order = CREATE_ORDER(client,symbol,side, 50, usdt, poside)
 
                         x=f'''OLD CANDLE OPENING : {data[0][1]}
-    NEW CANDLE CLOSING : {data[1][4]}
-    RESULT : SHORT
-    TAKE PROFIT : {tp}
-    STOP LOSS : {sl}'''
-                        await event.reply(str(x))
-                        await event.reply(str(order))
-                        Result,tpslid,TRADEstatus = SHORT_TPSL(client,tp,sl)
-                        await event.reply(str(Result))
+NEW CANDLE CLOSING : {data[1][4]}
+RESULT : SHORT
+TAKE PROFIT : {tp}
+STOP LOSS : {sl}'''
+                        await bot.send_message(LOG_GROUP,x)
+                        await bot.send_message(LOG_GROUP,str(order))
+                        if tradeS_value == "n":
+                            Result,tpslid,TRADEstatus = SHORT_TPSL(client,tp,sl)
+                        else:
+                            Result,tpslid,TRADEstatus = LONG_TPSL(client,tp,sl)
+                        await bot.send_message(LOG_GROUP,str(Result))
                         final = CLEAR_TRADES(client,tpslid)
-                        await event.reply(str(final))
+                        await bot.send_message(LOG_GROUP,str(final))
                         game = NumberGame()
                         usdt = game.process_input(TRADEstatus)["original_list_value"]
                         tradeS_value = game.process_input(TRADEstatus)["tradeS_value"]
                         response = requests.get(base_url + endpoint, params=params)
 
                     except Exception as e:
-                        await event.reply(str(e))
+                        await bot.send_message(LOG_GROUP,str(e))
                         response = requests.get(base_url + endpoint, params=params)
 
             data = response.json()    
