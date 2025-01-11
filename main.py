@@ -69,7 +69,7 @@ async def start(event):
                         tp,sl,order = CREATE_ORDER(client,symbol, side, 50, usdt,poside)
                         x=f'''OLD CANDLE OPENING : {data[0][1]}
 NEW CANDLE CLOSING : {data[1][4]}
-RESULT : LONG
+RESULT : LONG / {tradeS_value}
 TAKE PROFIT : {tp}
 STOP LOSS : {sl}'''
                         await bot.send_message(LOG_GROUP,x)
@@ -103,7 +103,7 @@ STOP LOSS : {sl}'''
 
                         x=f'''OLD CANDLE OPENING : {data[0][1]}
 NEW CANDLE CLOSING : {data[1][4]}
-RESULT : SHORT
+RESULT : SHORT / {tradeS_value}
 TAKE PROFIT : {tp}
 STOP LOSS : {sl}'''
                         await bot.send_message(LOG_GROUP,x)
