@@ -66,7 +66,7 @@ async def start(event):
                             side = "SELL"
                             poside = "SHORT"
 
-                        tp,sl,order = CREATE_ORDER(client,symbol, side, 50, usdt,poside)
+                        tp,sl,order = CREATE_ORDER(client,symbol, side, 75, usdt,poside)
                         x=f'''OLD CANDLE OPENING : {data[0][1]}
 NEW CANDLE CLOSING : {data[1][4]}
 RESULT : LONG / {tradeS_value}
@@ -82,9 +82,7 @@ AMOUNT : {usdt}'''
                         await bot.send_message(LOG_GROUP,str(Result))
                         final = CLEAR_TRADES(client,tpslid)
                         await bot.send_message(LOG_GROUP,str(final))
-                        game = NumberGame()
-                        usdt = game.process_input(TRADEstatus)["original_list_value"]
-                        tradeS_value = game.process_input(TRADEstatus)["tradeS_value"]
+
                         response = requests.get(base_url + endpoint, params=params)
 
                     except Exception as e:
@@ -100,7 +98,7 @@ AMOUNT : {usdt}'''
                             side = "BUY"
                             poside = "LONG"
                         
-                        tp,sl,order = CREATE_ORDER(client,symbol,side, 50, usdt, poside)
+                        tp,sl,order = CREATE_ORDER(client,symbol,side, 75, usdt, poside)
 
                         x=f'''OLD CANDLE OPENING : {data[0][1]}
 NEW CANDLE CLOSING : {data[1][4]}
@@ -117,14 +115,16 @@ AMOUNT : {usdt}'''
                         await bot.send_message(LOG_GROUP,str(Result))
                         final = CLEAR_TRADES(client,tpslid)
                         await bot.send_message(LOG_GROUP,str(final))
-                        game = NumberGame()
-                        usdt = game.process_input(TRADEstatus)["original_list_value"]
-                        tradeS_value = game.process_input(TRADEstatus)["tradeS_value"]
+                        
                         response = requests.get(base_url + endpoint, params=params)
 
                     except Exception as e:
                         await bot.send_message(LOG_GROUP,str(e))
                         response = requests.get(base_url + endpoint, params=params)
+
+                    game = NumberGame()
+                    usdt = game.process_input(TRADEstatus)["original_list_value"]
+                    tradeS_value = game.process_input(TRADEstatus)["tradeS_value"]
 
             data = response.json()    
             livecandle = data[2][0]
